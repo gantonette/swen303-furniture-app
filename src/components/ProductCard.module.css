@@ -34,10 +34,11 @@
 
 .productCardHeader p {
 
-    font-size: 0.8rem;
+    font-size: 1.5rem;
     padding: 0;
     margin: 0;
     margin-top: 0.75rem;
+    text-align: center;
 }
 
 .categoryCardContent {
@@ -59,14 +60,26 @@
     margin: 0;
 }
 
-.categoryCard img {
+/* .categoryCard img {
 
     /* border-radius: 5px; */
     /* padding: 1rem; */
-}
+
 
 .productPrice {
 
     display: flex;
     flex-direction: row;
 }
+
+.productImageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust the height as needed */
+  }
+  
+  .productImage {
+    max-width: 100%;
+    max-height: 100%;
+  }
