@@ -1,4 +1,4 @@
-import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonNote, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar } from "@ionic/react";
+import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonNote, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar, IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
 import { cart, chevronBackOutline, searchOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router"
@@ -18,6 +18,7 @@ const CategoryProducts = () => {
     const [ category, setCategory ] = useState({});
     const [ searchResults, setsearchResults ] = useState([]);
     const [ amountLoaded, setAmountLoaded ] = useState(6);
+    const [priceFilter, setPriceFilter] = useState(""); // Add priceFilter state
 
     useEffect(() => {
 
@@ -48,60 +49,82 @@ const CategoryProducts = () => {
         }
     }
 
-    return (
-
-        <IonPage id="category-page" className={ styles.categoryPage }>
-            <IonHeader>
-				<IonToolbar>
-                    <IonButtons slot="start">
+    const handlePriceFilterChange = (e) => {
+        const selectedFilter = e.target.value;
+    
+        // Apply price filter to searchResults
+        let filteredResults = [...category.products];
+    
+        if (selectedFilter === "low") {
+          filteredResults.sort((a, b) => a.price - b.price);
+        } else if (selectedFilter === "high") {
+          filteredResults.sort((a, b) => b.price - a.price);
+        }
+    
+        setsearchResults(filteredResults);
+        setPriceFilter(selectedFilter);
+    };
+    
+      return (
+        <IonPage id="category-page" className={styles.categoryPage}>
+          <IonHeader>
+            <IonToolbar>
+            <IonButtons slot="start">
                         <IonButton color="dark" text={ category.name } routerLink="/" routerDirection="back">
                             <IonIcon color="dark" icon={ chevronBackOutline } />&nbsp;Categories
                         </IonButton>
                     </IonButtons>
 					<IonTitle>{ category && category.name }</IonTitle>
-
-                    <IonButtons slot="end">
-                        <IonBadge color="dark">
+              <IonButtons slot="end">
+              <IonBadge color="dark">
                             { shopCart.length }
                         </IonBadge>
 						<IonButton color="dark" routerLink="/cart">
 							<IonIcon ref={ cartRef } className="animate__animated" icon={ cart } />
 						</IonButton>
-					</IonButtons>
-				</IonToolbar>
-			</IonHeader>
-			
-			<IonContent fullscreen>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+    
+          <IonContent fullscreen>
+            <IonSearchbar className={styles.search} onKeyUp={search} placeholder="Try 'high back'" searchIcon={searchOutline} animated={true} />
+    
+            {/* Add price filter dropdown */}
+            <IonItem>
+              <IonLabel>Price Filter</IonLabel>
+              <IonSelect value={priceFilter} placeholder="Select" onIonChange={handlePriceFilterChange}>
+                <IonSelectOption value="low">Low to High</IonSelectOption>
+                <IonSelectOption value="high">High to Low</IonSelectOption>
+              </IonSelect>
+            </IonItem>
+    
+            <IonGrid>
 
-                <IonSearchbar className={ styles.search } onKeyUp={ search } placeholder="Try 'high back'" searchIcon={ searchOutline } animated={ true } />
+                <IonRow className="ion-text-center">
+                    <IonCol size="12">
+                         <IonNote>{ searchResults && searchResults.length } { (searchResults.length > 1 || searchResults.length === 0) ? " products" : " product" } found</IonNote>
+                    </IonCol>
+                </IonRow>
 
-                <IonGrid>
+                <IonRow>
+                    { searchResults && searchResults.map((product, index) => {
 
-                    <IonRow className="ion-text-center">
-                        <IonCol size="12">
-                            <IonNote>{ searchResults && searchResults.length } { (searchResults.length > 1 || searchResults.length === 0) ? " products" : " product" } found</IonNote>
-                        </IonCol>
-                    </IonRow>
+                        if ((index <= amountLoaded) && product.image) {
+                            return (
+                                <ProductCard key={ `category_product_${ index }`} product={ product } index={ index } cartRef={ cartRef } category={ category } />
+                            );
+                        }
+                    })}
+                </IonRow>
+            </IonGrid>
 
-                    <IonRow>
-                        { searchResults && searchResults.map((product, index) => {
-
-                            if ((index <= amountLoaded) && product.image) {
-                                return (
-                                    <ProductCard key={ `category_product_${ index }`} product={ product } index={ index } cartRef={ cartRef } category={ category } />
-                                );
-                            }
-                        })}
-                    </IonRow>
-                </IonGrid>
-
-                <IonInfiniteScroll threshold="100px" onIonInfinite={ fetchMore }>
-					<IonInfiniteScrollContent loadingSpinner="bubbles" loadingText="Fetching more...">
-					</IonInfiniteScrollContent>
-				</IonInfiniteScroll>
-            </IonContent>
+<IonInfiniteScroll threshold="100px" onIonInfinite={ fetchMore }>
+<IonInfiniteScrollContent loadingSpinner="bubbles" loadingText="Fetching more...">
+</IonInfiniteScrollContent>
+</IonInfiniteScroll>
+          </IonContent>
         </IonPage>
-    );
-}
-
-export default CategoryProducts;
+      );
+    };
+    
+    export default CategoryProducts;
