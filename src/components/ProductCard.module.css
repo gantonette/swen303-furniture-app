@@ -34,10 +34,11 @@
 
 .productCardHeader p {
 
-    font-size: 0.8rem;
+    font-size: 1.5rem;
     padding: 0;
     margin: 0;
     margin-top: 0.75rem;
+    text-align: center;
 }
 
 .categoryCardContent {
@@ -69,4 +70,9 @@
 
     display: flex;
     flex-direction: row;
+}
+.productCardBadge{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

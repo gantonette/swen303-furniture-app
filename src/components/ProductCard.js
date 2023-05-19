@@ -69,7 +69,7 @@ const ProductCard = props => {
                         <IonIcon ref={ productFavouriteRef } style={{ position: "absolute", display: "none" }} className={ `${ styles.productCardAction } animate__animated` } color="danger" icon={ heart } />
                         <IonIcon className={ styles.productCardAction } size="medium" icon={ arrowRedoOutline } />
                     </div>
-                    <img src={ product.image } alt="product pic" />
+                    <img src={ product.image} alt="product pic" />
                     <p className="ion-text-wrap">{ product.name }</p>
                 </IonCardHeader>
 
