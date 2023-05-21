@@ -103,7 +103,7 @@ const CategoryProducts = () => {
                 <IonSelectOption value="low">Lowest Price</IonSelectOption>
                 <IonSelectOption value="high">Highest Price</IonSelectOption>
               </IonSelect>
-              <IonButton className={styles.priceFilterButton} color="primary" expand="full" onClick={applyPriceFilter}>
+              <IonButton className={styles.priceFilterButton} color="dark" expand='block' onClick={applyPriceFilter}>
                 Apply
               </IonButton>
             </IonCol>

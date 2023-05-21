@@ -14,6 +14,8 @@ const Home = () => {
   	const favourites = FavouritesStore.useState(s => s.product_ids);
 	const shopCart = CartStore.useState(s => s.product_ids);
 
+	
+
 	return (
 		<IonPage id="home-page" className={ styles.homePage }>
 			<IonHeader>

@@ -1,5 +1,5 @@
-import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
-import { arrowRedoOutline, cart, cartOutline, chevronBackOutline, heart, heartOutline } from "ionicons/icons";
+import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonPage, IonRadio, IonRadioGroup, IonRow, IonTitle, IonToolbar } from "@ionic/react";
+import { arrowRedoOutline, cart, cartOutline, chevronBackOutline, heart, heartOutline} from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router"
 import ProductCard from "../components/ProductCard";
@@ -76,6 +76,11 @@ const Product = () => {
         }, 500);
     };
 
+    // for the state of the product specifications
+    const [specificationsVisible, setSpecificationsVisible] = useState(false);
+    
+
+
     return (
         <IonPage id="category-page" className={styles.categoryPage}>
             <IonHeader>
@@ -103,7 +108,7 @@ const Product = () => {
                         <IonBadge color="dark" style={{ fontSize: "1.2rem" }}>
                             {shopCart.length}
                         </IonBadge>
-                        <IonButton color="dark" routerLink="/cart">
+                        <IonButton color="black" routerLink="/cart">
                             <IonIcon
                                 ref={cartRef}
                                 className="animate__animated"
@@ -167,14 +172,37 @@ const Product = () => {
                                     <img
                                         src={product.image}
                                         alt="product pic"
-                                        style={{ width: "100%" }}
+                                        style={{ width: "75%" }}
                                     />
-                                    <p className="ion-text-wrap" style={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                                        {product.name}
-                                    </p>
+                                    <h1 className="ion-text-wrap" style={{ fontSize: "1.4rem", fontWeight: "bold" }}>
+                                        {product.name} 
+                                    </h1>
+                                    
                                     <p className="ion-text-wrap" style={{ fontSize: "1rem" }}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin risus in elit volutpat, non rhoncus arcu iaculis. Nullam varius, arcu at vulputate fermentum, tellus arcu rutrum magna, a semper est neque ac massa. In auctor nisl mauris, at laoreet urna auctor vitae. Morbi facilisis mauris ac hendrerit vestibulum. Duis ac eros id mi ullamcorper elementum. Fusce efficitur nisi at est vestibulum pellentesque. Sed vitae semper urna, at varius tellus. Aliquam ultrices scelerisque magna, eu pulvinar nibh lacinia sit amet. Ut quis est dui. Nunc consequat, turpis sit amet venenatis varius, elit erat dapibus urna, eu efficitur tortor odio vitae tellus. Vivamus eu efficitur sem. Sed vestibulum turpis id justo mollis, sit amet mattis justo rutrum. Sed consectetur facilisis mauris, vel varius risus sollicitudin vitae. In id purus nec mi faucibus semper.
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin risus in eivamus eu efficitur sem. Sed vestibulum turpiLorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin risus in elit volutpat, non rhoncus arcu iaculis.
                                     </p>
+                                    <h1>
+                                        Specifications:
+                                        <IonButton
+                                            fill="clear"
+                                            size="small"
+                                            onClick={() => setSpecificationsVisible(!specificationsVisible)}
+                                        >
+                                            {specificationsVisible ? "hide" : "show"}
+                                        </IonButton>
+                                    </h1>
+                                        {specificationsVisible && (
+                                            <IonCardContent>
+                                                <p
+                                                className="ion-text-wrap"
+                                                style={{ fontSize: "1rem" }}
+                                                >
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin risus in elit volutpat, non rhoncus arcu iaculis. Nullam varius, arcu at vulputate fermentum, tellus arcu rutrum magna, a semper est neque ac massa. In auctor nisl mauris, at laoreet urna auctor vitae. Morbi facilisis mauris ac hendrerit vestibulum. Duis ac eros id mi ullamcorper elementum. Fusce efficitur nisi at est vestibulum pellentesque. Sed vitae semper urna, at varius tellus. Aliquam ultrices scelerisque magna, eu pulvinar nibh lacinia sit amet. Ut quis est dui. Nunc consequat, turpis sit amet venenatis varius, elit erat dapibus urna, eu efficitur tortor odio vitae tellus. Vivamus eu efficitur sem. Sed vestibulum turpi
+                                                </p>
+                                            </IonCardContent>
+                                        )}
+
+                                       
                                 </IonCardHeader>
 
                                 <IonCardContent
@@ -182,7 +210,7 @@ const Product = () => {
                                 >
                                     <div className={styles.productPrice}>
                                         <IonButton
-                                            color="light"
+                                            color="dark"
                                             size="large"
                                             style={{
                                                 fontSize: "1.4rem",
@@ -217,9 +245,8 @@ const Product = () => {
                                                     marginRight: "0.5rem",
                                                 }}
                                             />
-                                            &nbsp;&nbsp;Add to Cart
+                                            {/* &nbsp;&nbsp; Cart */}
                                         </IonButton>
-                                        
 
                                         <IonIcon
                                             icon={cart}
